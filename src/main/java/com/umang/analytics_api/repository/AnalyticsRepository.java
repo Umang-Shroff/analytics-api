@@ -74,9 +74,8 @@ public class AnalyticsRepository {
 
         String sql =
                 """
-                SELECT sum(amount)
-                FROM events
-                WHERE amount > 0
+                SELECT sum(revenue)
+                FROM revenue_stats
                 """;
 
         try(
@@ -126,10 +125,8 @@ public class AnalyticsRepository {
         String sql =
                 """
                 SELECT
-                    sum(amount),
-                    countIf(amount > 0),
-                    avgIf(amount, amount > 0)
-                FROM events
+                    sum(revenue)
+                FROM revenue_stats
                 """;
 
         try(
@@ -138,10 +135,11 @@ public class AnalyticsRepository {
         ) {
 
             rs.next();
+            long revenue = rs.getLong(1);
             return new RevenueResponse(
-                    rs.getLong(1),
-                    rs.getLong(2),
-                    rs.getDouble(3)
+                    revenue,
+                    0,
+                    0
             );
 
         } catch(Exception e) {
@@ -155,8 +153,8 @@ public class AnalyticsRepository {
                 """
                 SELECT
                     tenantId,
-                    count(*) AS total
-                FROM events
+                    sum(count) AS total
+                FROM tenant_event_counts
                 GROUP BY tenantId
                 ORDER BY total DESC
                 """;
@@ -184,11 +182,10 @@ public class AnalyticsRepository {
                 """
                 SELECT
                     campaignId,
-                    count(*) AS clicks
-                FROM events
-                WHERE campaignId != ''
+                    sum(clicks) AS total
+                FROM campaign_stats
                 GROUP BY campaignId
-                ORDER BY clicks DESC
+                ORDER BY total DESC
                 LIMIT 20
                 """;
 
@@ -203,7 +200,7 @@ public class AnalyticsRepository {
                 result.add(
                         new CampaignResponse(
                                 rs.getString("campaignId"),
-                                rs.getLong("clicks")
+                                rs.getLong("total")
                         )
                 );
             }
