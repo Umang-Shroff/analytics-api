@@ -1,0 +1,132 @@
+# ==========================================
+# Maven / Spring Boot
+# ==========================================
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Keep target folders inside source trees if needed
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Logs
+*.log
+logs/
+
+# Spring Boot
+application-local.yml
+application-local.yaml
+application-dev.yml
+application-dev.yaml
+application-prod.yml
+application-prod.yaml
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# ==========================================
+# Java
+# ==========================================
+*.class
+*.jar
+*.war
+*.ear
+
+hs_err_pid*
+replay_pid*
+
+# ==========================================
+# IntelliJ IDEA
+# ==========================================
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# ==========================================
+# Eclipse / STS
+# ==========================================
+.apt_generated/
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache/
+
+# ==========================================
+# VS Code
+# ==========================================
+.vscode/
+.history/
+
+# ==========================================
+# NetBeans
+# ==========================================
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# ==========================================
+# Build Directories
+# ==========================================
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# ==========================================
+# OS Files
+# ==========================================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ==========================================
+# Node.js / pnpm
+# ==========================================
+node_modules/
+.pnpm-store/
+.pnpm-debug.log*
+
+# npm/yarn leftovers
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Frontend build outputs
+dist/
+coverage/
+.next/
+.nuxt/
+.svelte-kit/
+
+# Vite
+vite.svg
+
+# ==========================================
+# Testing
+# ==========================================
+coverage/
+test-results/
+
+# ==========================================
+# Temporary Files
+# ==========================================
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# ==========================================
+# Secrets / Certificates
+# ==========================================
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
