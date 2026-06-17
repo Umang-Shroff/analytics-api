@@ -10,9 +10,9 @@ public class DashboardService {
     public DashboardOverviewResponse getOverview(){
         return new DashboardOverviewResponse(
                 repository.getTotalEvents(),
-                0,
-                0,
-                0
+                repository.getTotalUsers(),
+                repository.getTotalTenants(),
+                repository.getTotalRevenue()
         );
     }
 }
