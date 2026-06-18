@@ -1,4 +1,4 @@
-package com.umang.analyticsapi.config;
+package com.umang.analytics_api.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
