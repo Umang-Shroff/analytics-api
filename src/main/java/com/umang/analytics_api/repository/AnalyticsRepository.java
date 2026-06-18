@@ -105,6 +105,38 @@ public class AnalyticsRepository {
         }
     }
 
+    // public long getPurchaseCount() {
+
+    //     String sql =
+    //             """
+    //             SELECT count(*)
+    //             FROM events
+    //             WHERE eventType = 'PURCHASE'
+    //             """;
+
+    //     try(
+    //             PreparedStatement stmt = connection.prepareStatement(sql);
+    //             ResultSet rs = stmt.executeQuery()
+    //     ) {
+
+    //         rs.next();
+    //         return rs.getLong(1);
+
+    //     } catch(Exception e) {
+    //         throw new RuntimeException(e);
+    //     }
+    // }
+
+    // public double getAverageOrderValue() {
+
+    //     long revenue = getTotalRevenue();
+    //     long purchases = getPurchaseCount();
+    //     if(purchases == 0){
+    //         return 0;
+    //     }
+    //     return (double) revenue / purchases;
+    // }
+
     public List<EventTypeResponse> getEventTypes() {
 
         String sql =
@@ -136,27 +168,39 @@ public class AnalyticsRepository {
 
     public RevenueResponse getRevenueAnalytics() {
 
-        String sql =
-                """
-                SELECT
-                    sum(revenue)
-                FROM revenue_stats
-                """;
+        String sql = 
+        """
+            SELECT
+                count(*) as purchaseCount,
+                sum(amount) as totalRevenue
+            FROM events
+            WHERE eventType='PURCHASE'
+        """;
 
-        try(
+        try (
                 PreparedStatement stmt = connection.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery()
         ) {
-
+        
             rs.next();
-            long revenue = rs.getLong(1);
+            long purchaseCount = rs.getLong("purchaseCount");
+            long totalRevenue = rs.getLong("totalRevenue");
+    
+            double averageOrderValue =
+                    purchaseCount == 0
+                            ? 0
+                            : (double) totalRevenue / purchaseCount;
+    
+            System.out.println("==============================================================================");
+            System.out.println("Purchase Count: " + purchaseCount + "Average order value: " + averageOrderValue);
+            System.out.println("==============================================================================");
             return new RevenueResponse(
-                    revenue,
-                    0,
-                    0
+                    totalRevenue,
+                    purchaseCount,
+                    averageOrderValue
             );
-
-        } catch(Exception e) {
+    
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
