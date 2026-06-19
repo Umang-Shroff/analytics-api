@@ -63,6 +63,75 @@ public class AnalyticsRepository {
         }
     }
 
+    public List<UserActivityResponse> getTopUsers() {
+
+        String sql =
+                """
+                SELECT
+                    userId,
+                    count(*) AS events
+                FROM events
+                GROUP BY userId
+                ORDER BY events DESC
+                LIMIT 20
+                """;
+
+        List<UserActivityResponse> result = new ArrayList<>();
+
+        try(
+                PreparedStatement stmt = connection.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery()
+        ) {
+
+            while(rs.next()) {
+                result.add(
+                        new UserActivityResponse(
+                                rs.getString("userId"),
+                                rs.getLong("events")
+                        )
+                );
+            }
+
+        } catch(Exception e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    public List<DeviceResponse> getDeviceAnalytics() {
+
+        String sql =
+                """
+                SELECT
+                    device,
+                    count(*) AS events
+                FROM events
+                GROUP BY device
+                ORDER BY events DESC
+                """;
+
+        List<DeviceResponse> result = new ArrayList<>();
+
+        try(
+                PreparedStatement stmt = connection.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery()
+        ) {
+
+            while(rs.next()) {
+                result.add(
+                        new DeviceResponse(
+                                rs.getString("device"),
+                                rs.getLong("events")
+                        )
+                );
+            }
+
+        } catch(Exception e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
     public long getTotalTenants() {
 
         String sql =
@@ -191,9 +260,9 @@ public class AnalyticsRepository {
                             ? 0
                             : (double) totalRevenue / purchaseCount;
     
-            System.out.println("==============================================================================");
-            System.out.println("Purchase Count: " + purchaseCount + "Average order value: " + averageOrderValue);
-            System.out.println("==============================================================================");
+            // System.out.println("==============================================================================");
+            // System.out.println("Purchase Count: " + purchaseCount + "Average order value: " + averageOrderValue);
+            // System.out.println("==============================================================================");
             return new RevenueResponse(
                     totalRevenue,
                     purchaseCount,

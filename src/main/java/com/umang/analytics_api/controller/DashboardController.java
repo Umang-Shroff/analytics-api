@@ -56,6 +56,16 @@ public class DashboardController {
         return service.getPartitionAnalytics();
     }
 
+    @GetMapping("/users")
+    public List<UserActivityResponse> users() {
+        return service.getTopUsers();
+    }
+    
+    @GetMapping("/devices")
+    public List<DeviceResponse> devices() {
+        return service.getDeviceAnalytics();
+    }
+
     @GetMapping("/health")
     public String health(){
         return "Connected to SpringBoot";

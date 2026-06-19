@@ -49,4 +49,12 @@ public class DashboardService {
     public List<PartitionResponse> getPartitionAnalytics() {
         return repository.getPartitionAnalytics();
     }
+
+    public List<UserActivityResponse> getTopUsers() {
+        return repository.getTopUsers();
+    }
+    
+    public List<DeviceResponse> getDeviceAnalytics() {
+        return repository.getDeviceAnalytics();
+    }
 }
